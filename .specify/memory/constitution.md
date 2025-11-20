@@ -1,26 +1,27 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: Initial → 1.0.0
-Created: 2025-11-20
+Version Change: 1.0.0 → 1.1.0
+Last Amended: 2025-11-20
 
-New Principles Added:
-- I. Code Quality First
-- II. Clear & Intuitive UX
-- III. Minimal Full-Stack Architecture
-- IV. Consistent API Behavior
-- V. Performance Through Simplicity
-- VI. Strict MVP Scoping
-- VII. Fast Iteration Cycles
-- VIII. AI-Assisted Spec-Driven Development
+Changes in v1.1.0:
+- Added new section: Technical Constraints (non-negotiable tech stack)
+- Modified Principle II (Clear & Intuitive UX): Confirmed desktop-first design (no mobile)
+- Modified Principle III (Minimal Full-Stack Architecture): Updated ORM guidance to allow Dapper
+- Modified Quality Gates: Updated linting/type-checking tools for .NET/Vue stack
+
+New Section Added:
+- Technical Constraints: Vue 3 + TypeScript + DaisyUI frontend, .NET 8 + Dapper backend, SQLite database
 
 Templates Status:
-✅ .specify/templates/plan-template.md - Constitution Check section already aligned
-✅ .specify/templates/spec-template.md - User story prioritization aligns with MVP scoping
-✅ .specify/templates/tasks-template.md - Task organization supports iterative delivery
+✅ .specify/templates/plan-template.md - Constitution Check will include Technical Constraints
+✅ .specify/templates/spec-template.md - Requirements must align with tech stack
+✅ .specify/templates/tasks-template.md - Tasks must reference correct tech stack paths
 ⚠️  No command files found in .specify/templates/commands/ - will align when created
 
-Follow-up TODOs: None
+Follow-up TODOs:
+- Update plan-template.md Technical Context section to reflect .NET 8 + Vue 3 stack
+- Update plan-template.md Project Structure to show frontend/backend with correct conventions
 -->
 
 # Team Daily Goal Tracker with Mood Sync - Constitution
@@ -63,11 +64,11 @@ User experience must be so clear that users accomplish their goals without docum
 Start with the simplest architecture that solves the problem. Add complexity only when measurably necessary.
 
 **Rules:**
-- Default stack: Single-page web app + lightweight REST API + managed database
+- Default stack: Single-page web app + lightweight REST API + SQLite database
 - No microservices, no event buses, no message queues unless justified
 - Monorepo structure: `/frontend`, `/backend`, shared types/contracts
 - One database, normalized schema; denormalization requires justification
-- No ORMs unless team consensus—prefer raw SQL or query builders
+- Lightweight ORMs allowed (Dapper); prefer query builders over heavy ORMs
 - Serverless/managed services over self-hosted infrastructure
 - Deploy backend and frontend as separate services, but in same repo
 
@@ -187,6 +188,115 @@ Use AI tools to maintain living specifications that drive implementation and red
 
 **Rationale:** Ambiguity in requirements is the #1 cause of wasted development time. Specs force clarity upfront. AI tools accelerate writing tests, contracts, and boilerplate, freeing humans for creative problem-solving. Spec-first development catches misunderstandings before code is written.
 
+## Technical Constraints
+
+These technology choices are NON-NEGOTIABLE for this project. All implementation must adhere to these constraints.
+
+### Frontend Stack
+
+**Required Technologies:**
+- **Framework**: Vue 3 (Composition API only, no Options API)
+- **Language**: TypeScript with strict mode enabled
+- **UI Library**: DaisyUI (Tailwind CSS-based component library)
+- **Build Tool**: Vite (default for Vue 3 projects)
+
+**Component Standards:**
+- Use DaisyUI components exclusively: `btn`, `card`, `dropdown`, `checkbox`, `input`, `modal`, `table`, etc.
+- No custom CSS frameworks or component libraries
+- Tailwind utility classes for spacing/layout only
+- All components must use Composition API with `<script setup>` syntax
+- TypeScript strict mode must pass with zero errors
+
+**File Structure:**
+```
+frontend/
+├── src/
+│   ├── components/     # Reusable Vue components
+│   ├── views/          # Page-level components
+│   ├── composables/    # Composition API logic
+│   ├── services/       # API client services
+│   ├── types/          # TypeScript interfaces/types
+│   └── router/         # Vue Router configuration
+├── tsconfig.json       # TypeScript strict mode config
+└── package.json
+```
+
+**Rationale:** Vue 3 Composition API provides better TypeScript integration and code organization. DaisyUI offers accessible, consistent components out-of-the-box, reducing custom CSS and speeding up development. TypeScript strict mode catches errors at compile time, reducing runtime bugs.
+
+### Backend Stack
+
+**Required Technologies:**
+- **Framework**: .NET 8 Web API (ASP.NET Core)
+- **Language**: C# 12 (latest for .NET 8)
+- **ORM**: Dapper only (no Entity Framework, no other ORMs)
+- **Database**: SQLite (file-based, no PostgreSQL/MySQL/MSSQL)
+
+**Architecture Standards:**
+- RESTful API controllers with clear route conventions
+- Dapper for all database access (parameterized queries)
+- Repository pattern optional but not required
+- Dependency injection via built-in .NET DI container
+- Minimal middleware: authentication, CORS, error handling only
+
+**File Structure:**
+```
+backend/
+├── Controllers/        # API endpoints
+├── Models/             # Data models (POCOs)
+├── Services/           # Business logic
+├── Data/               # Dapper queries, database context
+├── Middleware/         # Custom middleware (if needed)
+├── Program.cs          # App configuration
+└── appsettings.json    # Configuration
+```
+
+**Rationale:** .NET 8 is modern, performant, and has excellent tooling. Dapper provides raw SQL control with minimal overhead—no ORM magic, no hidden queries. SQLite is zero-config, file-based, perfect for MVP deployment without infrastructure complexity.
+
+### Database
+
+**Required Engine:**
+- SQLite 3 (file-based relational database)
+- Single `.db` file in `/backend/Data/` directory
+- Migrations via raw SQL scripts (no EF migrations)
+
+**Schema Standards:**
+- Normalized tables (3NF minimum)
+- Integer primary keys with `AUTOINCREMENT`
+- Foreign key constraints enforced
+- Indexes on all foreign keys and frequently queried columns
+- UTC timestamps stored as ISO 8601 strings or Unix epoch integers
+
+**Rationale:** SQLite requires zero server setup, works on any platform, and is more than sufficient for team-scale applications (handles thousands of concurrent reads). For MVP, this eliminates database hosting costs and deployment complexity.
+
+### Shared Contracts
+
+**Type Sharing:**
+- API request/response models defined in TypeScript (`frontend/src/types/api.ts`)
+- Matching C# models in backend (`backend/Models/`)
+- Manual synchronization required (no code generation for MVP)
+- API contracts documented in `/specs/###-feature/contracts/` during planning phase
+
+**Rationale:** Manual type synchronization is acceptable for MVP scale. Automated code generation adds complexity. Explicit type definitions in both frontend and backend catch integration errors early.
+
+### Prohibited Technologies
+
+The following are explicitly PROHIBITED unless constitution is amended:
+
+**Frontend:**
+- React, Angular, Svelte, or other frameworks
+- Options API in Vue (Composition API only)
+- UI libraries other than DaisyUI (no Material UI, Ant Design, etc.)
+- CSS-in-JS solutions (Styled Components, Emotion, etc.)
+
+**Backend:**
+- Entity Framework (Core or legacy)
+- Other ORMs (NHibernate, LLBLGen, etc.)
+- Non-SQLite databases for primary storage
+- ASP.NET MVC (Web API only)
+- .NET Framework (use .NET 8+ only)
+
+**Rationale:** Technology sprawl kills productivity in small teams. These constraints force consistency and prevent bikeshedding over framework choices.
+
 ## Development Workflow
 
 ### Branching & Merging
@@ -202,10 +312,10 @@ Use AI tools to maintain living specifications that drive implementation and red
 - Reviews focus on: correctness, clarity, security, performance, UX
 
 ### Quality Gates
-- Linting: ESLint (frontend), Pylint/Ruff (backend if Python), or language equivalent
-- Type checking: TypeScript strict mode (frontend), type hints (backend if Python)
+- Linting: ESLint + Vue plugin (frontend), .NET analyzers (backend)
+- Type checking: TypeScript strict mode (frontend), C# nullable reference types (backend)
 - Tests: Unit tests for business logic, integration tests for user stories (optional unless requested)
-- Build: Must build without warnings
+- Build: Must build without warnings (both `npm run build` and `dotnet build`)
 - Security: Dependency scanning via Dependabot or Snyk
 
 ### Deployment Process
@@ -290,4 +400,4 @@ This constitution supersedes all other development practices and serves as the d
 - Archive old versions in `.specify/memory/constitution-v{X.Y.Z}.md`
 - Document lessons learned and improvement proposals
 
-**Version**: 1.0.0 | **Ratified**: 2025-11-20 | **Last Amended**: 2025-11-20
+**Version**: 1.1.0 | **Ratified**: 2025-11-20 | **Last Amended**: 2025-11-20

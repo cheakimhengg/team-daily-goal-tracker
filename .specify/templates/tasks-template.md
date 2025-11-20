@@ -20,10 +20,10 @@ description: "Task list template for feature implementation"
 
 ## Path Conventions
 
-- **Single project**: `src/`, `tests/` at repository root
-- **Web app**: `backend/src/`, `frontend/src/`
-- **Mobile**: `api/src/`, `ios/src/` or `android/src/`
-- Paths shown below assume single project - adjust based on plan.md structure
+- **Frontend**: `frontend/src/components/`, `frontend/src/views/`, `frontend/src/services/`, `frontend/src/types/`
+- **Backend**: `backend/Controllers/`, `backend/Models/`, `backend/Services/`, `backend/Data/`
+- **Tests**: `tests/frontend/` and `tests/backend/` (if tests requested)
+- All tasks must use exact file paths from plan.md structure
 
 <!-- 
   ============================================================================
@@ -48,9 +48,13 @@ description: "Task list template for feature implementation"
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure per implementation plan
-- [ ] T002 Initialize [language] project with [framework] dependencies
-- [ ] T003 [P] Configure linting and formatting tools
+- [ ] T001 Create project structure (frontend/ and backend/ directories)
+- [ ] T002 Initialize Vue 3 + TypeScript + Vite project in frontend/
+- [ ] T003 [P] Initialize .NET 8 Web API project in backend/
+- [ ] T004 [P] Configure ESLint + Vue plugin for frontend
+- [ ] T005 [P] Configure .NET analyzers for backend
+- [ ] T006 Install and configure DaisyUI in frontend/
+- [ ] T007 Setup SQLite database connection with Dapper in backend/Data/
 
 ---
 
@@ -62,12 +66,13 @@ description: "Task list template for feature implementation"
 
 Examples of foundational tasks (adjust based on your project):
 
-- [ ] T004 Setup database schema and migrations framework
-- [ ] T005 [P] Implement authentication/authorization framework
-- [ ] T006 [P] Setup API routing and middleware structure
-- [ ] T007 Create base models/entities that all stories depend on
-- [ ] T008 Configure error handling and logging infrastructure
-- [ ] T009 Setup environment configuration management
+- [ ] T008 Create SQLite schema migration scripts in backend/Data/Migrations/
+- [ ] T009 [P] Implement JWT authentication middleware in backend/Middleware/
+- [ ] T010 [P] Setup CORS and error handling middleware in backend/
+- [ ] T011 [P] Create base API response models in backend/Models/ApiResponse.cs
+- [ ] T012 [P] Create TypeScript API client service in frontend/src/services/api.ts
+- [ ] T013 [P] Setup Vue Router and base layout in frontend/src/
+- [ ] T014 Configure environment variables (backend/appsettings.json, frontend/.env)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -83,17 +88,19 @@ Examples of foundational tasks (adjust based on your project):
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T015 [P] [US1] Contract test for [endpoint] in tests/backend/integration/[name]Tests.cs
+- [ ] T016 [P] [US1] Component test for [Vue component] in tests/frontend/unit/[name].spec.ts
 
 ### Implementation for User Story 1
 
-- [ ] T012 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T013 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T014 [US1] Implement [Service] in src/services/[service].py (depends on T012, T013)
-- [ ] T015 [US1] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T016 [US1] Add validation and error handling
-- [ ] T017 [US1] Add logging for user story 1 operations
+- [ ] T017 [P] [US1] Create [Entity1] model in backend/Models/[Entity1].cs
+- [ ] T018 [P] [US1] Create [Entity2] model in backend/Models/[Entity2].cs
+- [ ] T019 [US1] Implement [Service] in backend/Services/[Service].cs (depends on T017, T018)
+- [ ] T020 [US1] Implement [Controller] endpoint in backend/Controllers/[Controller].cs
+- [ ] T021 [P] [US1] Create TypeScript types in frontend/src/types/[entity].ts
+- [ ] T022 [P] [US1] Create Vue component in frontend/src/components/[Component].vue
+- [ ] T023 [US1] Create page view in frontend/src/views/[View].vue (depends on T022)
+- [ ] T024 [US1] Add validation and error handling (backend + frontend)
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
