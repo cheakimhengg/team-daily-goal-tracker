@@ -27,11 +27,35 @@ A single-page desktop application displaying all team members' daily goals and c
 
 **Core Value Proposition**: See what your team is doing today and how they're feeling in under 3 seconds.
 
+## Clarifications
+
+### Session 2025-11-20
+
+- Q: How do users identify which team member card is theirs when updating goals/moods? → A: Simple dropdown selector on every page load (select "I am [Name]" to identify yourself)
+
 ## User Roles
 
 - **Team Member**: Any person using the application to view team goals and update their own goals/mood. All users have equal permissions—no admin roles.
 
 ## User Scenarios & Testing *(mandatory)*
+
+### User Story 0 - Identify Self on Dashboard (Priority: P1)
+
+As a team member, I want to identify myself using a simple dropdown selector when I open the dashboard so I can update my own goals and mood without authentication complexity.
+
+**Why this priority**: This is a prerequisite for User Stories 2 and 3 (setting goals and updating mood). Users must be able to identify themselves before they can make updates to their own data.
+
+**Independent Test**: Can be tested by opening the dashboard, selecting a name from the dropdown, and verifying that subsequent actions (add goal, change mood) are associated with the selected identity. Delivers value by enabling simple, trust-based user identification.
+
+**Acceptance Scenarios**:
+
+1. **Given** the application is opened, **When** the dashboard loads, **Then** a dropdown selector displays with all team member names and prompts "I am..."
+2. **Given** the identity selector is displayed, **When** I select my name from the dropdown, **Then** the selected identity is stored for the current session
+3. **Given** I have selected my identity, **When** I click "Add Goal" or change mood, **Then** those actions are attributed to the selected team member
+4. **Given** I have not selected an identity, **When** I attempt to add a goal or change mood, **Then** the system prompts me to select my identity first
+5. **Given** I have selected an identity, **When** I refresh the page, **Then** the identity selector reappears and I must re-select my identity (no persistence across page loads)
+
+---
 
 ### User Story 1 - View Team Dashboard (Priority: P1)
 
@@ -107,9 +131,11 @@ As a team member, I want to see a summary panel showing total goals and team moo
 
 ### Edge Cases
 
+- What happens when a user has not selected their identity? (All update actions (add goal, change mood) are disabled with a prompt "Please select your identity first")
+- What happens when a user refreshes the page after selecting identity? (Identity selection is lost; dropdown reappears requiring re-selection)
 - What happens when a team member has not set any goals or mood? (Display placeholders: "No goals set", "Mood not set")
 - What happens when a team member enters an extremely long goal text? (Truncate display at 200 characters with ellipsis, but store full text)
-- What happens when there are many team members (e.g., 20+)? (Grid layout wraps to multiple rows; vertical scrolling enabled)
+- What happens when there are many team members (e.g., 20+)? (Grid layout wraps to multiple rows; vertical scrolling enabled; identity dropdown supports scrolling)
 - What happens when multiple users update goals/moods simultaneously? (Last write wins; no conflict resolution needed for MVP)
 - What happens when the database file is missing or corrupted? (Application displays error message and creates a new database with empty data)
 - What happens when a team member deletes all their goals? (Card shows "No goals set" placeholder)
@@ -118,53 +144,60 @@ As a team member, I want to see a summary panel showing total goals and team moo
 
 ### Functional Requirements
 
+#### User Identification
+
+- **FR-001**: System MUST display a dropdown selector on dashboard load with all team member names and prompt "I am..."
+- **FR-002**: System MUST store the selected identity for the current browser session only (no persistence across page refreshes)
+- **FR-003**: System MUST require identity selection before allowing goal or mood updates
+- **FR-004**: System MUST associate all goal and mood changes with the currently selected team member identity
+
 #### Dashboard Display
 
-- **FR-001**: System MUST display all team members as individual cards on a single dashboard page
-- **FR-002**: Each team member card MUST show the member's name, current mood indicator, and list of daily goals
-- **FR-003**: Dashboard MUST load and display all data within 2 seconds on a standard desktop connection
-- **FR-004**: Team member cards MUST be arranged in a responsive grid layout that adjusts to browser window size
-- **FR-005**: System MUST display a stats panel showing total number of goals and mood distribution across the team
+- **FR-005**: System MUST display all team members as individual cards on a single dashboard page
+- **FR-006**: Each team member card MUST show the member's name, current mood indicator, and list of daily goals
+- **FR-007**: Dashboard MUST load and display all data within 2 seconds on a standard desktop connection
+- **FR-008**: Team member cards MUST be arranged in a responsive grid layout that adjusts to browser window size
+- **FR-009**: System MUST display a stats panel showing total number of goals and mood distribution across the team
 
 #### Goal Management
 
-- **FR-006**: Users MUST be able to add a new goal to their personal card via an input form
-- **FR-007**: Goal input form MUST accept text up to 500 characters
-- **FR-008**: System MUST validate that goal text is not empty before allowing submission
-- **FR-009**: Users MUST be able to edit existing goals inline on their card
-- **FR-010**: Users MUST be able to delete goals from their card with a single click
-- **FR-011**: System MUST display goals in the order they were created (oldest first)
-- **FR-012**: Changes to goals MUST be persisted immediately to the database
-- **FR-013**: System MUST support multiple goals per team member (no arbitrary limit)
+- **FR-010**: Users MUST be able to add a new goal to their personal card via an input form
+- **FR-011**: Goal input form MUST accept text up to 500 characters
+- **FR-012**: System MUST validate that goal text is not empty before allowing submission
+- **FR-013**: Users MUST be able to edit existing goals inline on their card
+- **FR-014**: Users MUST be able to delete goals from their card with a single click
+- **FR-015**: System MUST display goals in the order they were created (oldest first)
+- **FR-016**: Changes to goals MUST be persisted immediately to the database
+- **FR-017**: System MUST support multiple goals per team member (no arbitrary limit)
 
 #### Mood Status Management
 
-- **FR-014**: Users MUST be able to select their current mood from predefined options: Great, Good, Okay, Struggling, Overwhelmed
-- **FR-015**: Mood selector MUST be a dropdown accessible from the team member's card
-- **FR-016**: System MUST display mood status with color-coded indicators:
+- **FR-018**: Users MUST be able to select their current mood from predefined options: Great, Good, Okay, Struggling, Overwhelmed
+- **FR-019**: Mood selector MUST be a dropdown accessible from the team member's card
+- **FR-020**: System MUST display mood status with color-coded indicators:
   - Great: Dark Green
   - Good: Light Green
   - Okay: Yellow
   - Struggling: Orange
   - Overwhelmed: Red
-- **FR-017**: Users MUST be able to update their mood at any time, replacing the previous mood
-- **FR-018**: Mood changes MUST be persisted immediately to the database
-- **FR-019**: System MUST display "Mood not set" placeholder when no mood has been selected
+- **FR-021**: Users MUST be able to update their mood at any time, replacing the previous mood
+- **FR-022**: Mood changes MUST be persisted immediately to the database
+- **FR-023**: System MUST display "Mood not set" placeholder when no mood has been selected
 
 #### Data Persistence
 
-- **FR-020**: System MUST store all team member data, goals, and moods in a local SQLite database
-- **FR-021**: Database MUST persist data between application sessions
-- **FR-022**: System MUST automatically create database schema on first run if database does not exist
-- **FR-023**: All data changes (goals added/edited/deleted, mood updated) MUST be saved within 500ms
+- **FR-024**: System MUST store all team member data, goals, and moods in a local SQLite database
+- **FR-025**: Database MUST persist data between application sessions
+- **FR-026**: System MUST automatically create database schema on first run if database does not exist
+- **FR-027**: All data changes (goals added/edited/deleted, mood updated) MUST be saved within 500ms
 
 #### User Interface
 
-- **FR-024**: Application MUST be optimized for desktop browsers (Chrome, Firefox, Safari latest 2 versions)
-- **FR-025**: Application MUST use DaisyUI components for all UI elements (buttons, cards, dropdowns, inputs)
-- **FR-026**: Dashboard MUST refresh automatically to show updates from other users within 10 seconds
-- **FR-027**: All user actions (add goal, edit goal, delete goal, change mood) MUST provide immediate visual feedback
-- **FR-028**: Error messages MUST be displayed in plain language with actionable instructions
+- **FR-028**: Application MUST be optimized for desktop browsers (Chrome, Firefox, Safari latest 2 versions)
+- **FR-029**: Application MUST use DaisyUI components for all UI elements (buttons, cards, dropdowns, inputs, identity selector)
+- **FR-030**: Dashboard MUST refresh automatically to show updates from other users within 10 seconds
+- **FR-031**: All user actions (add goal, edit goal, delete goal, change mood) MUST provide immediate visual feedback
+- **FR-032**: Error messages MUST be displayed in plain language with actionable instructions
 
 ### Key Entities
 
