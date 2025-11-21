@@ -4,9 +4,6 @@ export default {
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
-  theme: {
-    extend: {},
-  },
   plugins: [require("daisyui")],
   daisyui: {
     themes: ["light"], // Use only light theme per MVP scope
