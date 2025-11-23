@@ -1,5 +1,6 @@
 import type { TeamMember } from '../types/TeamMember'
-import type { TeamMembersResponse } from '../types/ApiResponses'
+import type { Goal } from '../types/Goal'
+import type { TeamMembersResponse, GoalResponse } from '../types/ApiResponses'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
 
@@ -32,6 +33,27 @@ export async function getTeamMembers(includeGoals: boolean = false): Promise<Tea
     `/api/team-members?includeGoals=${includeGoals}`
   )
   return response.data
+}
+
+export async function createGoal(teamMemberId: number, goalText: string): Promise<Goal> {
+  const response = await fetchJSON<GoalResponse>('/api/goals', {
+    method: 'POST',
+    body: JSON.stringify({ teamMemberId, goalText })
+  })
+  return response.data
+}
+
+export async function toggleGoalCompletion(goalId: number): Promise<Goal> {
+  const response = await fetchJSON<GoalResponse>(`/api/goals/${goalId}/toggle`, {
+    method: 'PUT'
+  })
+  return response.data
+}
+
+export async function deleteGoal(goalId: number): Promise<void> {
+  await fetchJSON<void>(`/api/goals/${goalId}`, {
+    method: 'DELETE'
+  })
 }
 
 export { fetchJSON, API_BASE_URL }

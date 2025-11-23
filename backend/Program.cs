@@ -25,9 +25,11 @@ builder.Services.AddSingleton<IDbConnectionFactory>(sp => new SqliteConnectionFa
 
 // Register repositories
 builder.Services.AddScoped<backend.Data.Repositories.ITeamMemberRepository, backend.Data.Repositories.TeamMemberRepository>();
+builder.Services.AddScoped<backend.Data.Repositories.IGoalRepository, backend.Data.Repositories.GoalRepository>();
 
 // Register services
 builder.Services.AddScoped<backend.Services.ITeamMemberService, backend.Services.TeamMemberService>();
+builder.Services.AddScoped<backend.Services.IGoalService, backend.Services.GoalService>();
 
 var app = builder.Build();
 

@@ -25,15 +25,15 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project root directory structure (frontend/ and backend/ directories)
-- [ ] T002 Initialize Vue 3 + TypeScript + Vite project in frontend/ using `npm create vite@latest frontend -- --template vue-ts`
-- [ ] T003 [P] Initialize .NET 8 Web API project in backend/ using `dotnet new webapi -n backend`
-- [ ] T004 [P] Install and configure Tailwind CSS and DaisyUI in frontend/package.json
-- [ ] T005 [P] Configure Tailwind config at frontend/tailwind.config.js with DaisyUI plugin
-- [ ] T006 [P] Install Dapper and Microsoft.Data.Sqlite packages in backend/backend.csproj
-- [ ] T007 Create frontend/.env file with VITE_API_BASE_URL=http://localhost:5000
-- [ ] T008 Configure CORS in backend/Program.cs to allow http://localhost:5173 origin
-- [ ] T009 Create backend/Data/Migrations/001_InitialSchema.sql with TeamMembers and Goals table DDL
+- [X] T001 Create project root directory structure (frontend/ and backend/ directories)
+- [X] T002 Initialize Vue 3 + TypeScript + Vite project in frontend/ using `npm create vite@latest frontend -- --template vue-ts`
+- [X] T003 [P] Initialize .NET 8 Web API project in backend/ using `dotnet new webapi -n backend`
+- [X] T004 [P] Install and configure Tailwind CSS and DaisyUI in frontend/package.json
+- [X] T005 [P] Configure Tailwind config at frontend/tailwind.config.js with DaisyUI plugin
+- [X] T006 [P] Install Dapper and Microsoft.Data.Sqlite packages in backend/backend.csproj
+- [X] T007 Create frontend/.env file with VITE_API_BASE_URL=http://localhost:5000
+- [X] T008 Configure CORS in backend/Program.cs to allow http://localhost:5173 origin
+- [X] T009 Create backend/Data/Migrations/001_InitialSchema.sql with TeamMembers and Goals table DDL
 
 **Checkpoint**: Project structure ready - both frontend and backend can start independently
 
@@ -45,21 +45,21 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T010 Create SQLite database connection factory at backend/Data/IDbConnectionFactory.cs (interface)
-- [ ] T011 [P] Implement SqliteConnectionFactory at backend/Data/SqliteConnectionFactory.cs with connection string "Data Source=Data/team-tracker.db"
-- [ ] T012 [P] Create TeamMember entity model at backend/Models/TeamMember.cs with Id, Name, CurrentMood, MoodUpdatedAt properties
-- [ ] T013 [P] Create Goal entity model at backend/Models/Goal.cs with Id, TeamMemberId, GoalText, CreatedAt, IsCompleted properties
-- [ ] T014 [P] Create Mood enum at backend/Models/Mood.cs with values: Great, Good, Okay, Struggling, Overwhelmed
-- [ ] T015 [P] Create custom exceptions at backend/Exceptions/TeamMemberNotFoundException.cs and backend/Exceptions/GoalNotFoundException.cs
-- [ ] T016 [P] Create global exception handling middleware at backend/Middleware/ExceptionHandlingMiddleware.cs
-- [ ] T017 Configure dependency injection in backend/Program.cs: register IDbConnectionFactory, repositories, and services
-- [ ] T018 Add database migration execution in backend/Program.cs to run 001_InitialSchema.sql on startup
-- [ ] T019 Seed initial team members data in 001_InitialSchema.sql (insert 4 sample team members: Alice, Bob, Charlie, Diana)
-- [ ] T020 [P] Create TypeScript interface at frontend/src/types/TeamMember.ts with id, name, currentMood, moodUpdatedAt, goals properties
-- [ ] T021 [P] Create TypeScript interface at frontend/src/types/Goal.ts with id, teamMemberId, goalText, createdAt, isCompleted properties
-- [ ] T022 [P] Create TypeScript enum at frontend/src/types/Mood.ts with Great, Good, Okay, Struggling, Overwhelmed values
-- [ ] T023 [P] Create TypeScript interfaces at frontend/src/types/ApiResponses.ts for all API response wrappers (TeamMembersResponse, GoalResponse, etc.)
-- [ ] T024 Create API service base at frontend/src/services/api.ts with fetchJSON helper function and API_BASE_URL configuration
+- [X] T010 Create SQLite database connection factory at backend/Data/IDbConnectionFactory.cs (interface)
+- [X] T011 [P] Implement SqliteConnectionFactory at backend/Data/SqliteConnectionFactory.cs with connection string "Data Source=Data/team-tracker.db"
+- [X] T012 [P] Create TeamMember entity model at backend/Models/TeamMember.cs with Id, Name, CurrentMood, MoodUpdatedAt properties
+- [X] T013 [P] Create Goal entity model at backend/Models/Goal.cs with Id, TeamMemberId, GoalText, CreatedAt, IsCompleted properties
+- [X] T014 [P] Create Mood enum at backend/Models/Mood.cs with values: Great, Good, Okay, Struggling, Overwhelmed
+- [X] T015 [P] Create custom exceptions at backend/Exceptions/TeamMemberNotFoundException.cs and backend/Exceptions/GoalNotFoundException.cs
+- [X] T016 [P] Create global exception handling middleware at backend/Middleware/ExceptionHandlingMiddleware.cs
+- [X] T017 Configure dependency injection in backend/Program.cs: register IDbConnectionFactory, repositories, and services
+- [X] T018 Add database migration execution in backend/Program.cs to run 001_InitialSchema.sql on startup
+- [X] T019 Seed initial team members data in 001_InitialSchema.sql (insert 4 sample team members: Alice, Bob, Charlie, Diana)
+- [X] T020 [P] Create TypeScript interface at frontend/src/types/TeamMember.ts with id, name, currentMood, moodUpdatedAt, goals properties
+- [X] T021 [P] Create TypeScript interface at frontend/src/types/Goal.ts with id, teamMemberId, goalText, createdAt, isCompleted properties
+- [X] T022 [P] Create TypeScript enum at frontend/src/types/Mood.ts with Great, Good, Okay, Struggling, Overwhelmed values
+- [X] T023 [P] Create TypeScript interfaces at frontend/src/types/ApiResponses.ts for all API response wrappers (TeamMembersResponse, GoalResponse, etc.)
+- [X] T024 Create API service base at frontend/src/services/api.ts with fetchJSON helper function and API_BASE_URL configuration
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -73,17 +73,17 @@
 
 ### Implementation for User Story 0
 
-- [ ] T025 [P] [US0] Create ITeamMemberRepository interface at backend/Data/Repositories/ITeamMemberRepository.cs with GetAllAsync and GetByIdAsync signatures
-- [ ] T026 [US0] Implement TeamMemberRepository at backend/Data/Repositories/TeamMemberRepository.cs with GetAllAsync(includeGoals: false) using Dapper query "SELECT Id, Name, CurrentMood, MoodUpdatedAt FROM TeamMembers ORDER BY Name"
-- [ ] T027 [P] [US0] Create ITeamMemberService interface at backend/Services/ITeamMemberService.cs with GetAllAsync signature
-- [ ] T028 [US0] Implement TeamMemberService at backend/Services/TeamMemberService.cs with GetAllAsync method delegating to repository
-- [ ] T029 [US0] Create TeamMembersController at backend/Controllers/TeamMembersController.cs with GET /api/team-members endpoint (includeGoals query parameter, default false)
-- [ ] T030 [P] [US0] Add getTeamMembers(includeGoals: boolean) function to frontend/src/services/api.ts calling GET /api/team-members
-- [ ] T031 [P] [US0] Create composable at frontend/src/composables/useIdentity.ts with currentUserId ref, session storage persistence, and watchers
-- [ ] T032 [P] [US0] Create IdentitySelector component at frontend/src/components/IdentitySelector.vue with DaisyUI select dropdown showing team member names
-- [ ] T033 [US0] Create DashboardView at frontend/src/views/DashboardView.vue: fetch team members on mount, integrate IdentitySelector, emit identity-selected event
-- [ ] T034 [US0] Update frontend/src/App.vue to set up Vue Router and render DashboardView as main route
-- [ ] T035 [US0] Configure Vue Router in frontend/src/main.ts with single route "/" → DashboardView
+- [X] T025 [P] [US0] Create ITeamMemberRepository interface at backend/Data/Repositories/ITeamMemberRepository.cs with GetAllAsync and GetByIdAsync signatures
+- [X] T026 [US0] Implement TeamMemberRepository at backend/Data/Repositories/TeamMemberRepository.cs with GetAllAsync(includeGoals: false) using Dapper query "SELECT Id, Name, CurrentMood, MoodUpdatedAt FROM TeamMembers ORDER BY Name"
+- [X] T027 [P] [US0] Create ITeamMemberService interface at backend/Services/ITeamMemberService.cs with GetAllAsync signature
+- [X] T028 [US0] Implement TeamMemberService at backend/Services/TeamMemberService.cs with GetAllAsync method delegating to repository
+- [X] T029 [US0] Create TeamMembersController at backend/Controllers/TeamMembersController.cs with GET /api/team-members endpoint (includeGoals query parameter, default false)
+- [X] T030 [P] [US0] Add getTeamMembers(includeGoals: boolean) function to frontend/src/services/api.ts calling GET /api/team-members
+- [X] T031 [P] [US0] Create composable at frontend/src/composables/useIdentity.ts with currentUserId ref, session storage persistence, and watchers
+- [X] T032 [P] [US0] Create IdentitySelector component at frontend/src/components/IdentitySelector.vue with DaisyUI select dropdown showing team member names
+- [X] T033 [US0] Create DashboardView at frontend/src/views/DashboardView.vue: fetch team members on mount, integrate IdentitySelector, emit identity-selected event
+- [X] T034 [US0] Update frontend/src/App.vue to set up Vue Router and render DashboardView as main route
+- [X] T035 [US0] Configure Vue Router in frontend/src/main.ts with single route "/" → DashboardView
 
 **Checkpoint**: At this point, users can select their identity from dropdown. Identity is stored in session storage and cleared on page refresh.
 
@@ -97,13 +97,13 @@
 
 ### Implementation for User Story 1
 
-- [ ] T036 [US1] Update TeamMemberRepository.GetAllAsync to support includeGoals=true with Dapper multi-mapping: LEFT JOIN Goals, split on "Id", hydrate TeamMember.Goals collection
-- [ ] T037 [US1] Update TeamMemberService.GetAllAsync to pass includeGoals parameter to repository
-- [ ] T038 [P] [US1] Create TeamMemberCard component at frontend/src/components/TeamMemberCard.vue with props: teamMember, isCurrentUser; displays name, mood badge, goals list, conditionally shows edit controls
-- [ ] T039 [P] [US1] Create GoalItem component at frontend/src/components/GoalItem.vue with props: goal, canEdit; displays goal text with checkbox (if canEdit), strikethrough if completed, delete button
-- [ ] T040 [US1] Update DashboardView.vue: call getTeamMembers(includeGoals=true) on mount, render TeamMemberCard for each team member with v-for, pass isCurrentUser based on currentUserId from useIdentity
-- [ ] T041 [US1] Add computed property moodBackgroundClass to TeamMemberCard.vue mapping Mood enum to DaisyUI color classes (bg-success/10 for Great, bg-error/10 for Overwhelmed)
-- [ ] T042 [US1] Add computed property moodBadgeClass to TeamMemberCard.vue mapping Mood enum to DaisyUI badge classes (badge-success for Great, badge-error for Overwhelmed)
+- [X] T036 [US1] Update TeamMemberRepository.GetAllAsync to support includeGoals=true with Dapper multi-mapping: LEFT JOIN Goals, split on "Id", hydrate TeamMember.Goals collection
+- [X] T037 [US1] Update TeamMemberService.GetAllAsync to pass includeGoals parameter to repository
+- [X] T038 [P] [US1] Create TeamMemberCard component at frontend/src/components/TeamMemberCard.vue with props: teamMember, isCurrentUser; displays name, mood badge, goals list, conditionally shows edit controls
+- [X] T039 [P] [US1] Create GoalItem component at frontend/src/components/GoalItem.vue with props: goal, canEdit; displays goal text with checkbox (if canEdit), strikethrough if completed, delete button
+- [X] T040 [US1] Update DashboardView.vue: call getTeamMembers(includeGoals=true) on mount, render TeamMemberCard for each team member with v-for, pass isCurrentUser based on currentUserId from useIdentity
+- [X] T041 [US1] Add computed property moodBackgroundClass to TeamMemberCard.vue mapping Mood enum to DaisyUI color classes (bg-success/10 for Great, bg-error/10 for Overwhelmed)
+- [X] T042 [US1] Add computed property moodBadgeClass to TeamMemberCard.vue mapping Mood enum to DaisyUI badge classes (badge-success for Great, badge-error for Overwhelmed)
 
 **Checkpoint**: At this point, dashboard displays all team members with their goals and moods. Cards show read-only view with color-coded mood indicators.
 
@@ -117,31 +117,31 @@
 
 ### Implementation for User Story 2
 
-- [ ] T043 [P] [US2] Create DTOs at backend/Models/DTOs/GoalCreateRequest.cs with TeamMemberId and GoalText properties, add DataAnnotations validation (Required, StringLength 1-500)
-- [ ] T044 [P] [US2] Create IGoalRepository interface at backend/Data/Repositories/IGoalRepository.cs with InsertAsync, GetByIdAsync, ToggleCompletionAsync, DeleteAsync signatures
-- [ ] T045 [US2] Implement GoalRepository at backend/Data/Repositories/GoalRepository.cs:
+- [X] T043 [P] [US2] Create DTOs at backend/Models/DTOs/GoalCreateRequest.cs with TeamMemberId and GoalText properties, add DataAnnotations validation (Required, StringLength 1-500)
+- [X] T044 [P] [US2] Create IGoalRepository interface at backend/Data/Repositories/IGoalRepository.cs with InsertAsync, GetByIdAsync, ToggleCompletionAsync, DeleteAsync signatures
+- [X] T045 [US2] Implement GoalRepository at backend/Data/Repositories/GoalRepository.cs:
   - InsertAsync: "INSERT INTO Goals (TeamMemberId, GoalText, CreatedAt, IsCompleted) VALUES (...); SELECT last_insert_rowid()"
   - GetByIdAsync: "SELECT * FROM Goals WHERE Id = @Id"
   - ToggleCompletionAsync: "UPDATE Goals SET IsCompleted = CASE WHEN IsCompleted = 0 THEN 1 ELSE 0 END WHERE Id = @Id"
   - DeleteAsync: "DELETE FROM Goals WHERE Id = @Id"
-- [ ] T046 [P] [US2] Create IGoalService interface at backend/Services/IGoalService.cs with CreateAsync, ToggleCompletionAsync, DeleteAsync signatures
-- [ ] T047 [US2] Implement GoalService at backend/Services/GoalService.cs:
+- [X] T046 [P] [US2] Create IGoalService interface at backend/Services/IGoalService.cs with CreateAsync, ToggleCompletionAsync, DeleteAsync signatures
+- [X] T047 [US2] Implement GoalService at backend/Services/GoalService.cs:
   - CreateAsync: validate TeamMemberId exists via TeamMemberRepository, create Goal entity, call repository.InsertAsync
   - ToggleCompletionAsync: call repository.ToggleCompletionAsync, fetch updated goal, throw GoalNotFoundException if not found
   - DeleteAsync: call repository.DeleteAsync, throw GoalNotFoundException if rows affected = 0
-- [ ] T048 [US2] Create GoalsController at backend/Controllers/GoalsController.cs with three endpoints:
+- [X] T048 [US2] Create GoalsController at backend/Controllers/GoalsController.cs with three endpoints:
   - POST /api/goals (accepts GoalCreateRequest, returns 201 Created with goal data)
   - PUT /api/goals/{id}/toggle (empty body, returns 200 OK with updated goal)
   - DELETE /api/goals/{id} (returns 204 No Content on success)
-- [ ] T049 [P] [US2] Add API functions to frontend/src/services/api.ts:
+- [X] T049 [P] [US2] Add API functions to frontend/src/services/api.ts:
   - createGoal(teamMemberId, goalText) → POST /api/goals
   - toggleGoalCompletion(goalId) → PUT /api/goals/{id}/toggle
   - deleteGoal(goalId) → DELETE /api/goals/{id}
-- [ ] T050 [P] [US2] Create GoalInputForm component at frontend/src/components/GoalInputForm.vue: textarea with 500 char limit, character counter, validation, submit/cancel buttons, emits goal-created event
-- [ ] T051 [US2] Update TeamMemberCard.vue: add "Add Goal" button (show only if isCurrentUser), toggle showGoalForm state, integrate GoalInputForm, handle goal-created event → call createGoal API → add to local teamMember.goals array
-- [ ] T052 [US2] Update GoalItem.vue: add checkbox input → emit goal-toggled event, add delete button → show confirmation dialog → emit goal-deleted event
-- [ ] T053 [US2] Update TeamMemberCard.vue: handle goal-toggled event → call toggleGoalCompletion API with optimistic update (update local state immediately, rollback on error)
-- [ ] T054 [US2] Update TeamMemberCard.vue: handle goal-deleted event → call deleteGoal API with optimistic update (remove from local goals array immediately, rollback on error)
+- [X] T050 [P] [US2] Create GoalInputForm component at frontend/src/components/GoalInputForm.vue: textarea with 500 char limit, character counter, validation, submit/cancel buttons, emits goal-created event
+- [X] T051 [US2] Update TeamMemberCard.vue: add "Add Goal" button (show only if isCurrentUser), toggle showGoalForm state, integrate GoalInputForm, handle goal-created event → call createGoal API → add to local teamMember.goals array
+- [X] T052 [US2] Update GoalItem.vue: add checkbox input → emit goal-toggled event, add delete button → show confirmation dialog → emit goal-deleted event
+- [X] T053 [US2] Update TeamMemberCard.vue: handle goal-toggled event → call toggleGoalCompletion API with optimistic update (update local state immediately, rollback on error)
+- [X] T054 [US2] Update TeamMemberCard.vue: handle goal-deleted event → call deleteGoal API with optimistic update (remove from local goals array immediately, rollback on error)
 
 **Checkpoint**: At this point, users can fully manage their goals (add, complete, delete). All goal operations work with optimistic UI updates and proper error handling.
 
