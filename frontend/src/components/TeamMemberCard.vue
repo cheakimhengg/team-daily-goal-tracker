@@ -4,6 +4,7 @@ import type { TeamMember } from '../types/TeamMember'
 import { Mood } from '../types/Mood'
 import GoalItem from './GoalItem.vue'
 import GoalInputForm from './GoalInputForm.vue'
+import MoodSelector from './MoodSelector.vue'
 
 const props = defineProps<{
   teamMember: TeamMember
@@ -14,6 +15,7 @@ const emit = defineEmits<{
   'goal-created': [teamMemberId: number, goalText: string]
   'goal-toggled': [goalId: number]
   'goal-deleted': [goalId: number]
+  'mood-changed': [teamMemberId: number, mood: Mood]
 }>()
 
 const showGoalForm = ref(false)
@@ -66,6 +68,10 @@ const handleGoalToggled = (goalId: number) => {
 const handleGoalDeleted = (goalId: number) => {
   emit('goal-deleted', goalId)
 }
+
+const handleMoodChanged = (mood: Mood) => {
+  emit('mood-changed', props.teamMember.id, mood)
+}
 </script>
 
 <template>
@@ -99,6 +105,12 @@ const handleGoalDeleted = (goalId: number) => {
       <div v-else-if="!isCurrentUser" class="text-gray-400 italic mt-4">
         No goals set yet
       </div>
+
+      <MoodSelector
+        v-if="isCurrentUser"
+        :current-mood="teamMember.currentMood"
+        @mood-changed="handleMoodChanged"
+      />
 
       <div v-if="isCurrentUser" class="mt-4">
         <GoalInputForm

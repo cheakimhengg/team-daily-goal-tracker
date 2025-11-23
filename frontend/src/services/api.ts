@@ -1,6 +1,7 @@
 import type { TeamMember } from '../types/TeamMember'
 import type { Goal } from '../types/Goal'
-import type { TeamMembersResponse, GoalResponse } from '../types/ApiResponses'
+import type { Mood } from '../types/Mood'
+import type { TeamMembersResponse, GoalResponse, TeamMemberResponse } from '../types/ApiResponses'
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
 
@@ -54,6 +55,14 @@ export async function deleteGoal(goalId: number): Promise<void> {
   await fetchJSON<void>(`/api/goals/${goalId}`, {
     method: 'DELETE'
   })
+}
+
+export async function updateMood(teamMemberId: number, mood: Mood): Promise<TeamMember> {
+  const response = await fetchJSON<TeamMemberResponse>(`/api/team-members/${teamMemberId}/mood`, {
+    method: 'PUT',
+    body: JSON.stringify({ mood })
+  })
+  return response.data
 }
 
 export { fetchJSON, API_BASE_URL }

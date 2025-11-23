@@ -2,10 +2,11 @@
 import { ref, onMounted } from 'vue'
 import IdentitySelector from '../components/IdentitySelector.vue'
 import TeamMemberCard from '../components/TeamMemberCard.vue'
-import { getTeamMembers, createGoal, toggleGoalCompletion, deleteGoal } from '../services/api'
+import { getTeamMembers, createGoal, toggleGoalCompletion, deleteGoal, updateMood } from '../services/api'
 import { useIdentity } from '../composables/useIdentity'
 import type { TeamMember } from '../types/TeamMember'
 import type { Goal } from '../types/Goal'
+import type { Mood } from '../types/Mood'
 
 const { currentUserId } = useIdentity()
 const teamMembers = ref<TeamMember[]>([])
@@ -93,6 +94,26 @@ const handleGoalDeleted = async (goalId: number) => {
     alert(e instanceof Error ? e.message : 'Failed to delete goal')
   }
 }
+
+const handleMoodChanged = async (teamMemberId: number, mood: Mood) => {
+  const teamMember = teamMembers.value.find(tm => tm.id === teamMemberId)
+  if (!teamMember) return
+
+  // Optimistic update
+  const previousMood = teamMember.currentMood
+  const previousMoodUpdatedAt = teamMember.moodUpdatedAt
+  teamMember.currentMood = mood
+  teamMember.moodUpdatedAt = new Date().toISOString()
+
+  try {
+    await updateMood(teamMemberId, mood)
+  } catch (e) {
+    // Rollback on error
+    teamMember.currentMood = previousMood
+    teamMember.moodUpdatedAt = previousMoodUpdatedAt
+    alert(e instanceof Error ? e.message : 'Failed to update mood')
+  }
+}
 </script>
 
 <template>
@@ -131,6 +152,7 @@ const handleGoalDeleted = async (goalId: number) => {
           @goal-created="handleGoalCreated"
           @goal-toggled="handleGoalToggled"
           @goal-deleted="handleGoalDeleted"
+          @mood-changed="handleMoodChanged"
         />
       </div>
     </div>

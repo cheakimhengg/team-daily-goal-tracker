@@ -155,18 +155,18 @@
 
 ### Implementation for User Story 3
 
-- [ ] T055 [P] [US3] Create DTO at backend/Models/DTOs/MoodUpdateRequest.cs with Mood property, add DataAnnotations validation (Required, EnumDataType)
-- [ ] T056 [US3] Add UpdateMoodAsync(id, mood, timestamp) to ITeamMemberRepository interface at backend/Data/Repositories/ITeamMemberRepository.cs
-- [ ] T057 [US3] Implement UpdateMoodAsync in TeamMemberRepository.cs: "UPDATE TeamMembers SET CurrentMood = @Mood, MoodUpdatedAt = @Timestamp WHERE Id = @Id" using Dapper
-- [ ] T058 [US3] Add UpdateMoodAsync(id, mood) to ITeamMemberService interface at backend/Services/ITeamMemberService.cs
-- [ ] T059 [US3] Implement UpdateMoodAsync in TeamMemberService.cs: fetch team member by id, throw TeamMemberNotFoundException if null, update mood and timestamp, call repository.UpdateMoodAsync, return updated team member
-- [ ] T060 [US3] Add PUT /api/team-members/{id}/mood endpoint to TeamMembersController.cs: accept MoodUpdateRequest, validate ModelState, call service.UpdateMoodAsync, return 200 OK with updated team member
-- [ ] T061 [P] [US3] Add updateMood(teamMemberId, mood) function to frontend/src/services/api.ts calling PUT /api/team-members/{id}/mood
-- [ ] T062 [P] [US3] Create MoodSelector component at frontend/src/components/MoodSelector.vue: DaisyUI button group with 5 mood buttons (Great, Good, Okay, Struggling, Overwhelmed), highlight currentMood, emit mood-changed event
-- [ ] T063 [US3] Add getMoodEmoji helper function to MoodSelector.vue mapping Mood enum to emojis (😊, 🙂, 😐, 😟, 😰)
-- [ ] T064 [US3] Update TeamMemberCard.vue: integrate MoodSelector (show if isCurrentUser), show mood badge if not current user, handle mood-changed event → call updateMood API with optimistic update
-- [ ] T065 [US3] Add mood-based styling to TeamMemberCard.vue: card background color changes based on teamMember.currentMood using computed property (light tint for each mood)
-- [ ] T066 [US3] Test mood updates: verify card background color changes, mood badge updates, optimistic UI updates work, rollback on error
+- [X] T055 [P] [US3] Create DTO at backend/Models/DTOs/MoodUpdateRequest.cs with Mood property, add DataAnnotations validation (Required, EnumDataType)
+- [X] T056 [US3] Add UpdateMoodAsync(id, mood, timestamp) to ITeamMemberRepository interface at backend/Data/Repositories/ITeamMemberRepository.cs
+- [X] T057 [US3] Implement UpdateMoodAsync in TeamMemberRepository.cs: "UPDATE TeamMembers SET CurrentMood = @Mood, MoodUpdatedAt = @Timestamp WHERE Id = @Id" using Dapper
+- [X] T058 [US3] Add UpdateMoodAsync(id, mood) to ITeamMemberService interface at backend/Services/ITeamMemberService.cs
+- [X] T059 [US3] Implement UpdateMoodAsync in TeamMemberService.cs: fetch team member by id, throw TeamMemberNotFoundException if null, update mood and timestamp, call repository.UpdateMoodAsync, return updated team member
+- [X] T060 [US3] Add PUT /api/team-members/{id}/mood endpoint to TeamMembersController.cs: accept MoodUpdateRequest, validate ModelState, call service.UpdateMoodAsync, return 200 OK with updated team member
+- [X] T061 [P] [US3] Add updateMood(teamMemberId, mood) function to frontend/src/services/api.ts calling PUT /api/team-members/{id}/mood
+- [X] T062 [P] [US3] Create MoodSelector component at frontend/src/components/MoodSelector.vue: DaisyUI button group with 5 mood buttons (Great, Good, Okay, Struggling, Overwhelmed), highlight currentMood, emit mood-changed event
+- [X] T063 [US3] Add getMoodEmoji helper function to MoodSelector.vue mapping Mood enum to emojis (😊, 🙂, 😐, 😟, 😰)
+- [X] T064 [US3] Update TeamMemberCard.vue: integrate MoodSelector (show if isCurrentUser), show mood badge if not current user, handle mood-changed event → call updateMood API with optimistic update
+- [X] T065 [US3] Add mood-based styling to TeamMemberCard.vue: card background color changes based on teamMember.currentMood using computed property (light tint for each mood)
+- [X] T066 [US3] Test mood updates: verify card background color changes, mood badge updates, optimistic UI updates work, rollback on error
 
 **Checkpoint**: At this point, all P1 user stories (US0, US1, US2, US3) are complete. Users can identify themselves, view dashboard, manage goals, and update moods. This is the MVP!
 
