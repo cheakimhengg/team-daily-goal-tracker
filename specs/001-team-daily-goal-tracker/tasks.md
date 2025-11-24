@@ -204,16 +204,16 @@
 
 **Purpose**: Improvements that affect multiple user stories, error handling, and deployment readiness
 
-- [ ] T076 [P] Add error toast notifications in DashboardView.vue for API failures (use DaisyUI alert component)
-- [ ] T077 [P] Add loading spinners during API calls in DashboardView.vue, TeamMemberCard.vue, GoalInputForm.vue (use DaisyUI loading component)
-- [ ] T078 Add validation error display in GoalInputForm.vue: show inline error messages for empty text, text too long (> 500 chars)
-- [ ] T079 Add confirmation dialogs for destructive actions: delete goal confirmation using browser confirm() or DaisyUI modal
-- [ ] T080 [P] Add consistent spacing and styling with DaisyUI utility classes across all components (cards, buttons, inputs, badges)
-- [ ] T081 [P] Add hover states to buttons using DaisyUI btn-hover classes
-- [ ] T082 Test application in Chrome, Firefox, Safari (latest 2 versions): verify layout, functionality, API calls
-- [ ] T083 Test edge cases: empty goals list, null moods, extremely long goal text (truncate at 200 chars with ellipsis in display)
-- [ ] T084 [P] Add README.md at project root with setup instructions (copy from quickstart.md key sections)
-- [ ] T085 Verify performance targets: page load < 3 seconds (Chrome DevTools), API latency < 200ms (Network tab), Lighthouse score > 90
+- [X] T076 [P] Add error toast notifications in DashboardView.vue for API failures (use DaisyUI alert component)
+- [X] T077 [P] Add loading spinners during API calls in DashboardView.vue, TeamMemberCard.vue, GoalInputForm.vue (use DaisyUI loading component)
+- [X] T078 Add validation error display in GoalInputForm.vue: show inline error messages for empty text, text too long (> 500 chars)
+- [X] T079 Add confirmation dialogs for destructive actions: delete goal confirmation using browser confirm() or DaisyUI modal
+- [X] T080 [P] Add consistent spacing and styling with DaisyUI utility classes across all components (cards, buttons, inputs, badges)
+- [X] T081 [P] Add hover states to buttons using DaisyUI btn-hover classes
+- [X] T082 Test application in Chrome, Firefox, Safari (latest 2 versions): verify layout, functionality, API calls
+- [X] T083 Test edge cases: empty goals list, null moods, extremely long goal text (truncate at 200 chars with ellipsis in display)
+- [X] T084 [P] Add README.md at project root with setup instructions (copy from quickstart.md key sections)
+- [X] T085 Verify performance targets: page load < 3 seconds (Chrome DevTools), API latency < 200ms (Network tab), Lighthouse score > 90
 
 **Checkpoint**: Application is polished, tested, and ready for deployment. All edge cases handled, error states display user-friendly messages.
 
